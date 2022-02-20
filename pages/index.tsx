@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Link from 'next/link'
 import { client } from '../libs/client'
+import Post from '../components/Post'
 
 const Home: NextPage = ({ blog }) => {
   return (
@@ -11,15 +11,9 @@ const Home: NextPage = ({ blog }) => {
       </Head>
 
       <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        <ul>
-          {blog.map((blog) => (
-            <li key={blog.id}>
-              <Link href={`/blog/${blog.id}`}>
-                <a className="text-white">{blog.title}</a>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {blog.map((blog) => (
+          <Post key={blog.id} data={blog} />
+        ))}
       </main>
     </div>
   )
