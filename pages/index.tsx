@@ -1,18 +1,38 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import Link from 'next/link'
+import { client } from '../libs/client'
 
-const Home: NextPage = () => {
+const Home: NextPage = ({ blog }) => {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-200 py-2">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-slate-600	 py-2">
       <Head>
         <title>Create Next App</title>
       </Head>
 
       <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        ブログ
+        <ul>
+          {blog.map((blog) => (
+            <li key={blog.id}>
+              <Link href={`/blog/${blog.id}`}>
+                <a className="text-white">{blog.title}</a>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </main>
     </div>
   )
 }
 
 export default Home
+
+export const getStaticProps = async () => {
+  const data = await client.get({ endpoint: 'blog' })
+
+  return {
+    props: {
+      blog: data.contents,
+    },
+  }
+}
